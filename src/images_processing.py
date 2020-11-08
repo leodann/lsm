@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 SIZE = (32, 32)
-ROOT_DIR = '/home/legokna/Proyects/python/lms/images/raw'
+ROOT_DIR = '/home/legokna/Proyects/python/lsm/images/raw'
 CLASSES = ['A', 'B', 'C', 'D']
 
 #Funcion para mostrar el proceso de el tratamiento de imagenes
