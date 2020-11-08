@@ -4,8 +4,6 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 SIZE = (32, 32)
-ROOT_DIR = '/home/legokna/Proyects/python/lsm/images/raw'
-CLASSES = ['A', 'B', 'C', 'D']
 
 #Funcion para mostrar el proceso de el tratamiento de imagenes
 def show_imgs(titles,images):    
@@ -34,29 +32,29 @@ def sobel_edge(img_src):
     return grad
 
 #Funcion para el tratamiento de la imagen
-def processing_image(name):
+def processing_image(path,name):
     #Lectura de la imagen en escala de grises
-    img_name = ROOT_DIR+name
+    img_name = path+name
     img_src = cv.imread(img_name)
     img_src = cv.cvtColor(img_src,cv.COLOR_BGR2RGB)
     img = cv.imread(img_name, 0)
     #Conversion de la imagen en una imagen Binaria
-    ret, img_bin = cv.threshold(img, 0, 255, cv.THRESH_BINARY)
+    ret, img_bin = cv.threshold(img, 127, 255, cv.THRESH_BINARY)
     img_th3 = cv.adaptiveThreshold(img, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C,
                             cv.THRESH_BINARY, 11, 2)
     #Contono de la imagen
-    img_edged = sobel_edge(img_bin)
+    img_edged = sobel_edge(img_th3)
     #Redimensionar la imagen
     img_resized = cv.resize(img_edged, SIZE, interpolation=cv.INTER_AREA)
     #Mostrar los resultados
     titles = ['Source Image','GrayScale', 'Binary', 'TH3','EDGY','Resized']
     images = [img_src,img,img_bin, img_th3, img_edged,img_resized]
     show_imgs(titles,images)
+    return img_resized
     #Guardar la imagen procesada
-    img_final_path = '/home/legokna/Proyects/python/lms/images/processed'+name
-    cv.imwrite(img_final_path,img_resized)
+    #img_final_path = '/home/legokna/Proyects/python/lsm/images/processed'+name
+    #cv.imwrite(img_final_path,img_resized)
     # plt.imshow(img_bin,cmap="gray")
-    
 
-current_img_name = '/test.jpg'
-processing_image(current_img_name)
+def save_img(img, path):
+    cv.imwrite(path,img)
